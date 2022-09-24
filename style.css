@@ -34,7 +34,7 @@ p, label {
     color: var(--color-text);
     width: fit-content;
 }
-h1, h2, label {
+h1, h2, label, input {
     font-family: var(--font-title);
 }
 p {
@@ -46,7 +46,7 @@ p {
     margin-top: 1rem;
     font-size: 1rem;
 }
-label {
+label, input {
     font-size: 1rem;
     font-weight: 400;
 }
@@ -84,7 +84,7 @@ section{
     box-shadow: 0px 15px 30px var(--color-shadow);
     border: 2px solid var(--color-border);
     position: relative;
-    border-radius: 1rem;
+    border-radius: 0.7rem;
 }
 .databox, .total {
     padding: 1.5rem;

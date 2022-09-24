@@ -16,72 +16,71 @@
         </header>
         <section>
             <div class="cont">
-                <div class="databox">
+                <div class="databox" onchange="calcSize()">
                     <!-- Бокс для ввода данных о размерах -->
                     <div class="sheet">
-                        <p>Лист</p>
+                        <p>Лист (мм)</p>
                         <div class="param">
                             <div class="cont-inp">
-                                <label for="">ш:</label>
-                                <input type="number" name="" id="">
+                                <label for="sheet-w">ш:</label>
+                                <input type="number" value="0" name="" id="sheet-w">
                             </div>
                             <div class="cont-inp">
-                                <label for="">в:</label>
-                                <input type="number" name="" id="">
+                                <label for="sheet-h">в:</label>
+                                <input type="number" value="0" name="" id="sheet-h">
                             </div>
                         </div>
-                        <p class="small-p">Поля</p>
+                        <p class="small-p">Поля (мм)</p>
                         <div class="param">
                             <div class="cont-inp">
-                                <label for="">в:</label>
-                                <input type="number" name="" id="">
+                                <label for="sheet-d">н:</label>
+                                <input type="number" value="0" name="" id="sheet-d">
                             </div>
                             <div class="cont-inp">
-                                <label for="">п:</label>
-                                <input type="number" name="" id="">
+                                <label for="sheet-l">л:</label>
+                                <input type="number" value="0" name="" id="sheet-l">
                             </div>
                             <div class="cont-inp">
-                                <label for="">н:</label>
-                                <input type="number" name="" id="">
+                                <label for="sheet-u">в:</label>
+                                <input type="number" value="0" name="" id="sheet-u">
                             </div>
                             <div class="cont-inp">
-                                <label for="">л:</label>
-                                <input type="number" name="" id="">
+                                <label for="sheet-r">п:</label>
+                                <input type="number" value="0" name="" id="sheet-r">
                             </div>
                         </div>
                     </div>
                     <div class="cutaway">
-                        <p>Визитка</p>
+                        <p>Визитка (мм)</p>
                         <div class="param">
                             <div class="cont-inp">
-                                <label for="">ш:</label>
-                                <input type="number" name="" id="">
+                                <label for="cutaway-w">ш:</label>
+                                <input type="number" value="0" name="" id="cutaway-w">
                             </div>
                             <div class="cont-inp">
-                                <label for="">в:</label>
-                                <input type="number" name="" id="">
+                                <label for="cutaway-h">в:</label>
+                                <input type="number" value="0" name="" id="cutaway-h">
                             </div>
                         </div>
-                        <p class="small-p">Вылеты</p>
+                        <p class="small-p">Вылеты (мм)</p>
                         <div class="cont-inp">
-                            <label for=""></label>
-                            <input type="number" name="" id="">
+                            <label for="cutaway-f"></label>
+                            <input type="number" value="0" name="" id="cutaway-f">
                         </div>
                     </div>
                 </div>
                 <div class="total">
                     <p>Всего визиток</p>
-                    <h2>9999</h2>
+                    <h2>0</h2>
                 </div>
             </div>
             <div class="preview">
                 <!-- Бокс с визуализацией положения визиток на листе -->
-                <canvas id="canvas">
-
-                </canvas>
+                <canvas id="canvas"></canvas>
             </div>
         </section>
     </div>
+    <script src="script.js"></script>
 </body>
 
 </html>
