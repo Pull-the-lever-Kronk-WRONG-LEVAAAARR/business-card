@@ -1,16 +1,43 @@
-function calcSize() {
+   //константы для размеров листа
+   const MAX_SHEET_W = 2000
+   const MIN_SHEET_W = 297
+   const MIN_SHEET_H = 210
+   const MAX_SHEET_H = 1000
+
+   //константы для размеров полей листа
+   const MAX_SHEET_U = 50
+   const MIN_SHEET_U = 10
+   const MAX_SHEET_R = 50
+   const MIN_SHEET_R = 10
+   const MAX_SHEET_D = 50
+   const MIN_SHEET_D = 10
+   const MAX_SHEET_L = 50
+   const MIN_SHEET_L = 10
+
+   //константы для размеров вылетов и размерах визитки
+   const MAX_CUTAWAY_W = 100
+   const MIN_CUTAWAY_W = 85
+   const MAX_CUTAWAY_H = 55
+   const MIN_CUTAWAY_H = 50
+   const MAX_CUTAWAY_F = 50
+   const MIN_CUTAWAY_F = 5
+
+function calcSize() {     
     // данные о формате листа
     let sheet_w = Number(parseFloat(document.querySelector('#sheet-w').value).toFixed(2))
     let sheet_h = Number(parseFloat(document.querySelector('#sheet-h').value).toFixed(2))
+
     //данные о полях
     let sheet_u = Number(parseFloat(document.querySelector('#sheet-u').value).toFixed(2))
     let sheet_r = Number(parseFloat(document.querySelector('#sheet-r').value).toFixed(2))
     let sheet_d = Number(parseFloat(document.querySelector('#sheet-d').value).toFixed(2))
     let sheet_l = Number(parseFloat(document.querySelector('#sheet-l').value).toFixed(2))
+
     //данные о размерах визитки после обрезки
     let cutaway_w = Number(parseFloat(document.querySelector('#cutaway-w').value).toFixed(2))
     let cutaway_h = Number(parseFloat(document.querySelector('#cutaway-h').value).toFixed(2))
     let cutaway_f = Number(parseFloat(document.querySelector('#cutaway-f').value).toFixed(2))
+  
     let fin_sheet_w = sheet_w - sheet_r - sheet_l // размер печатной области по ширине
     let fin_sheet_h = sheet_h - sheet_u - sheet_d // размер печатной области по высоте
     let fin_cutaway_w = cutaway_w + 2 * cutaway_f // размер макета визитки с полями по ширине
@@ -18,6 +45,10 @@ function calcSize() {
     let total = 0 // всего визиток в печатном листе
     let total_row = 0 // количество визиток по горизонтали
     let total_column = 0 // количество визиток по вертикали
+    let total_box = document.querySelector('.total > h2')
+
+    //если данные введены верно, расчет количества визиток
+   if (checkInput(sheet_w,sheet_h,sheet_u,sheet_d,sheet_r,sheet_l,cutaway_w,cutaway_h,cutaway_f)){
     if (fin_cutaway_w > 0 && fin_cutaway_h > 0) {
         //округление до меньшего, т.к. это физический объект
         total_row = Math.floor(fin_sheet_w / fin_cutaway_w)
@@ -25,7 +56,6 @@ function calcSize() {
         total = total_row * total_column
     }
 
-    let total_box = document.querySelector('.total > h2')
     if (total > 0) {
         // если значение больше 0, то вывод в блок .total
         total_box.innerText = total
@@ -38,6 +68,28 @@ function calcSize() {
         // total_box.innerText = 'Недостаточно данных'
         console.log('Недостаточно данных')
     }
+}
+else {
+    //если ошибка ввода данных
+    total_box.innerText = "Er"}
+}
+
+function checkInput(sheet_w,sheet_h,sheet_u,sheet_d,sheet_r,sheet_l,cutaway_w,cutaway_h,cutaway_f){
+    //выражения для защиты ввода
+   let checkSheetW = Boolean(sheet_w <= MAX_SHEET_W && sheet_w >= MIN_SHEET_W)
+   let checkSheetH = Boolean(sheet_h <= MAX_SHEET_H && sheet_h >= MIN_SHEET_H)
+   let checkSheetU = Boolean(sheet_u <= MAX_SHEET_U && sheet_u >= MIN_SHEET_U)
+   let checkSheetD = Boolean(sheet_d <= MAX_SHEET_D && sheet_d >= MIN_SHEET_D)
+   let checkSheetR = Boolean(sheet_r <= MAX_SHEET_R && sheet_r >= MIN_SHEET_R)
+   let checkSheetL = Boolean(sheet_l <= MAX_SHEET_L && sheet_l >= MIN_SHEET_L)
+   let checkCutawayW = Boolean(cutaway_w <= MAX_CUTAWAY_W && cutaway_w >= MIN_CUTAWAY_W)
+   let checkCutawayH = Boolean(cutaway_h <= MAX_CUTAWAY_H && cutaway_h >= MIN_CUTAWAY_H)
+   let checkCutawayF = Boolean(cutaway_f <= MAX_CUTAWAY_F && cutaway_f >= MIN_CUTAWAY_F)
+   //если данные введены верно, то возвращаем true
+   if (checkSheetW && checkSheetH && checkSheetU && checkSheetD && checkSheetR && checkSheetD && checkSheetL && checkCutawayW && checkCutawayF && checkCutawayH){
+       return true
+   }
+   else return false
 
 }
 
@@ -82,4 +134,3 @@ function resizePreview(sheet_w, sheet_h, sheet_u, sheet_d, sheet_l, sheet_r) {
         c.setAttribute('height', (sheet_h + sheet_u + sheet_d))
     }
 }
-
