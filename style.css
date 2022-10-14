@@ -1,5 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Raleway:wght@400&display=swap');
-
+ 
 * {
     margin: 0;
     padding: 0;
@@ -15,7 +15,6 @@
     --color-shadow: rgba(173,163,151,80%);
     --font-title: 'Open Sans', sans-serif;
     --font-main: 'Raleway', sans-serif;
-
 }
 html {
     font-size: 20px;
@@ -45,6 +44,11 @@ p {
 .small-p {
     margin-top: 1rem;
     font-size: 1rem;
+}
+.warning {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: darkred;
 }
 label, input {
     font-size: 1rem;
