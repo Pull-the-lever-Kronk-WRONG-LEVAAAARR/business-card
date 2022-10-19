@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
- 
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +8,7 @@
     <title>Рассчитать количество визиток</title>
     <link rel="stylesheet" href="style.css">
 </head>
- 
+
 <body>
     <div class="cont">
         <header>
@@ -19,27 +19,19 @@
                 <div class="databox" onchange="calcSize()">
                     <!-- Бокс для ввода данных о размерах -->
                     <div class="sheet">
-                        <p>Лист (мм)</p>
+                        <p>Формат листа (мм)</p>
                         <div class="param">
-                            <div class="cont-inp">
-                                <label for="sheet-w">ш:</label>
-                                <input type="number" value="0" name="" id="sheet-w">
-                            </div>
                             <div class="cont-inp">
                                 <label for="sheet-h">в:</label>
                                 <input type="number" value="0" name="" id="sheet-h">
                             </div>
+                            <div class="cont-inp">
+                                <label for="sheet-w">ш:</label>
+                                <input type="number" value="0" name="" id="sheet-w">
+                            </div>
                         </div>
                         <p class="small-p">Поля (мм)</p>
                         <div class="param">
-                            <div class="cont-inp">
-                                <label for="sheet-d">н:</label>
-                                <input type="number" value="0" name="" id="sheet-d">
-                            </div>
-                            <div class="cont-inp">
-                                <label for="sheet-l">л:</label>
-                                <input type="number" value="0" name="" id="sheet-l">
-                            </div>
                             <div class="cont-inp">
                                 <label for="sheet-u">в:</label>
                                 <input type="number" value="0" name="" id="sheet-u">
@@ -48,10 +40,18 @@
                                 <label for="sheet-r">п:</label>
                                 <input type="number" value="0" name="" id="sheet-r">
                             </div>
+                            <div class="cont-inp">
+                                <label for="sheet-d">н:</label>
+                                <input type="number" value="0" name="" id="sheet-d">
+                            </div>
+                            <div class="cont-inp">
+                                <label for="sheet-l">л:</label>
+                                <input type="number" value="0" name="" id="sheet-l">
+                            </div>
                         </div>
                     </div>
                     <div class="cutaway">
-                        <p>Визитка (мм)</p>
+                        <p>Формат визитки (мм)</p>
                         <div class="param">
                             <div class="cont-inp">
                                 <label for="cutaway-w">ш:</label>
@@ -70,17 +70,35 @@
                         <p class="warning"></p>
                     </div>
                 </div>
-                <div class="total">
-                    <p>Всего визиток</p>
-                    <h2>0</h2>
+                <div class="run">
+                    <p>Тираж</p>
+                    <div class="cont-inp">
+                        <label for="run"></label>
+                        <input type="number" value="0" name="" id="run">
+                    </div>
                 </div>
             </div>
-            <div class="preview">
-                <!-- Бокс с визуализацией положения визиток на листе -->
-                <canvas id="canvas"></canvas>
+            <div class="cont">
+                <div class="preview">
+                    <!-- Бокс с визуализацией положения визиток на листе -->
+                    <canvas id="canvas"></canvas>
+                </div>
+                <div class="cont-total">
+                    <div class="total">
+                        <p>Визиток в листе</p>
+                        <h2>0</h2>
+                    </div>
+                    <div class="total total-sheet">
+                        <p>Всего листов</p>
+                        <h2>0</h2>
+                    </div>
+                </div>
             </div>
         </section>
     </div>
+    <div class="bg-left"></div>
+    <div class="bg-right"></div>
     <script src="script.js"></script>
 </body>
+
 </html>
