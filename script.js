@@ -6,23 +6,38 @@ const MAX_SHEET_H = 1000
 
 //константы для размеров полей листа
 const MAX_SHEET_U = 50 //верхнее поле
-const MIN_SHEET_U = 5
+const MIN_SHEET_U = 2
 const MAX_SHEET_R = 50 //правое поле
-const MIN_SHEET_R = 5
+const MIN_SHEET_R = 2
 const MAX_SHEET_D = 50 //нижнее поле
-const MIN_SHEET_D = 5
+const MIN_SHEET_D = 2
 const MAX_SHEET_L = 50 //левое поле
-const MIN_SHEET_L = 5
+const MIN_SHEET_L = 2
 
 //константы для размеров вылетов и размерах визитки
-const MAX_CUTAWAY_W = 100 //максимальная ширина визитки
+const MAX_CUTAWAY_W = 148 //максимальная ширина визитки
 const MIN_CUTAWAY_W = 85
-const MAX_CUTAWAY_H = 55 //максимальная высота визитки
+const MAX_CUTAWAY_H = 210 //максимальная высота визитки
 const MIN_CUTAWAY_H = 50
 const MAX_CUTAWAY_F = 50 //максимальный вылет
-const MIN_CUTAWAY_F = 5
+const MIN_CUTAWAY_F = 2
 
-let warning = document.querySelector('.warning') //предупреждение об ошибке
+let total_box = document.querySelector('.total > h2') //количество визиток
+let warningForList = document.querySelector('.warning') //предупреждение об ошибке в блоке с вводом полей
+let total_lists = document.querySelector('.total-sheet > h2') //предупреждение об ошибке в блоке с вводом полей
+
+//блоки элементов
+let sheet_w_block = document.getElementById('sheet-w').parentElement
+let sheet_h_block = document.getElementById('sheet-h').parentElement
+let sheet_l_block = document.getElementById('sheet-l').parentElement
+let sheet_d_block = document.getElementById('sheet-d').parentElement
+let sheet_u_block = document.getElementById('sheet-u').parentElement
+let sheet_r_block = document.getElementById('sheet-r').parentElement
+let cutaway_w_block = document.getElementById('cutaway-w').parentElement
+let cutaway_h_block = document.getElementById('cutaway-h').parentElement
+let cutaway_f_block = document.getElementById('cutaway-f').parentElement
+
+let total = 0 // всего визиток в печатном листе
 
 function calcSize() {
     // данные о формате листа
@@ -48,24 +63,59 @@ function calcSize() {
     let total_row = 0 // количество визиток по горизонтали
     let total_column = 0 // количество визиток по вертикали
     let total_box = document.querySelector('.total > h2') //количество визиток
+
     //если данные введены верно, расчет количества визиток
     if (checkInput(sheet_w, sheet_h, sheet_u, sheet_d, sheet_r, sheet_l, cutaway_w, cutaway_h, cutaway_f)) {
         if (fin_cutaway_w > 0 && fin_cutaway_h > 0) {
+            // поиск наиболее выгодного использования пространства
+            // сохранение промежуточных результатов во временные переменные,
+            // необходимых для нахождения наибольшей произведения total = total_row * total_column
             //округление до меньшего, т.к. это физический объект
-            total_row = Math.floor(fin_sheet_w / fin_cutaway_w)
-            total_column = Math.floor(fin_sheet_h / fin_cutaway_h)
-            total = total_row * total_column
+            temp_row_ww = Math.floor(fin_sheet_w / fin_cutaway_w)
+            temp_row_wh = Math.floor(fin_sheet_w / fin_cutaway_h)
+            temp_column_hh = Math.floor(fin_sheet_h / fin_cutaway_h)
+            temp_column_hw = Math.floor(fin_sheet_h / fin_cutaway_w)
+            // возможны следующие комбинации, т.к. величина не может использоваться два раза:
+            // temp_row_ww * temp_column_hh
+            // temp_row_wh * temp_column_hw
+            temp_total_ww_hh = temp_row_ww * temp_column_hh
+            temp_total_wh_hw = temp_row_wh * temp_column_hw
+            if (temp_total_ww_hh >= temp_total_wh_hw) {
+                total_row = temp_row_ww
+                total_column = temp_column_hh
+                total = temp_total_ww_hh
+            } else {
+                total_row = temp_row_wh
+                total_column = temp_column_hw
+                total = temp_total_wh_hw
+                // cutaway_w и cutaway_h меняются значениями, т.о., получается "вертикальная" раскладка
+                temp = cutaway_w
+                cutaway_w = cutaway_h
+                cutaway_h = temp
+            }
         }
 
         if (total > 0) {
             // если значение больше 0, то вывод в блок .total
             total_box.innerText = total
-            // -->
             console.log('total: ' + total)
+            //подсчет количества листов
+            let run = document.querySelector('#run') //введенный тираж
+            run.addEventListener('change', function () {
+                let runL = Number(parseInt(document.querySelector('#run').value)) //введенный тираж
+                if (runL > 0 && runL <= total) {
+                    total_lists.innerHTML = 1;
+                }
+                else {
+                    console.log(Math.ceil(runL / total))
+                    //округление в большую сторону, так как листы - физические объекты
+                    total_lists.innerHTML = Math.ceil(runL / total);
+                }
+            });
             // новые размеры canvas и блока
             resizePreview(sheet_w, sheet_h, sheet_u, sheet_d, sheet_l, sheet_r)
             visualize(cutaway_w, cutaway_h, cutaway_f, total_row, total_column)
-            warning.innerHTML = "" //нет ошибки
+            warningForList.innerHTML = "" //нет ошибки
         } else {
             console.log('Недостаточно данных')
         }
@@ -89,20 +139,43 @@ function checkInput(sheet_w, sheet_h, sheet_u, sheet_d, sheet_r, sheet_l, cutawa
     let checkCutawayF = Boolean(cutaway_f <= MAX_CUTAWAY_F && cutaway_f >= MIN_CUTAWAY_F)
     //если данные введены верно, то возвращаем true
     if (checkSheetW && checkSheetH && checkSheetU && checkSheetD && checkSheetR && checkSheetD && checkSheetL && checkCutawayW && checkCutawayF && checkCutawayH) {
+        // избавление от стиля, который мог остаться
+        sheet_h_block.classList.remove('error-input')
+        sheet_w_block.classList.remove('error-input')
+        sheet_l_block.classList.remove('error-input')
+        sheet_d_block.classList.remove('error-input')
+        sheet_r_block.classList.remove('error-input')
+        sheet_u_block.classList.remove('error-input')
+        cutaway_w_block.classList.remove('error-input')
+        cutaway_h_block.classList.remove('error-input')
+        cutaway_f_block.classList.remove('error-input')
         return true
     }
     //если какой-то из параметров пустой, возвращаем false и выводим ошибку
-    else if (sheet_w === 0 || sheet_h === 0 || sheet_u === 0 || sheet_d === 0 || sheet_r === 0 || sheet_l === 0 || cutaway_w === 0 || cutaway_h === 0 || cutaway_f === 0) {
-        warning.innerHTML = "Недостаточно данных!"
-        return false
-    }
-    //если введенные параметры не соотвутсвуют ограничениям, возвращаем false и выводим ошибку
     else {
-        warning.innerHTML = "Ошибка ввода данных!"
-        return false
+        //если поле заполнено неверно, выделяем красным
+        //проверяем, исправилось ли значение в поле. Если да - убираем красную границу
+        sheet_h <= 0 || !checkSheetH ? sheet_h_block.classList.add('error-input') : sheet_h_block.classList.remove('error-input')
+        sheet_w <= 0 || !checkSheetW ? sheet_w_block.classList.add('error-input') : sheet_w_block.classList.remove('error-input')
+        sheet_l <= 0 || !checkSheetL ? sheet_l_block.classList.add('error-input') : sheet_l_block.classList.remove('error-input')
+        sheet_d <= 0 || !checkSheetD ? sheet_d_block.classList.add('error-input') : sheet_d_block.classList.remove('error-input')
+        sheet_r <= 0 || !checkSheetR ? sheet_r_block.classList.add('error-input') : sheet_r_block.classList.remove('error-input')
+        sheet_u <= 0 || !checkSheetU ? sheet_u_block.classList.add('error-input') : sheet_u_block.classList.remove('error-input')
+        cutaway_w <= 0 || !checkCutawayW ? cutaway_w_block.classList.add('error-input') : cutaway_w_block.classList.remove('error-input')
+        cutaway_h <= 0 || !checkCutawayH ? cutaway_h_block.classList.add('error-input') : cutaway_h_block.classList.remove('error-input')
+        cutaway_f <= 0 || !checkCutawayF ? cutaway_f_block.classList.add('error-input') : cutaway_f_block.classList.remove('error-input')
+        if (sheet_w <= 0 || sheet_h <= 0 || sheet_u <= 0 || sheet_d <= 0 || sheet_r <= 0 || sheet_l <= 0 || cutaway_w <= 0 || cutaway_h <= 0 || cutaway_f <= 0) {
+            warningForList.innerHTML = "Недостаточно данных!"
+            return false
+        }
+        //если введенные параметры не соотвутсвуют ограничениям, возвращаем false и выводим ошибку
+        else {
+            warningForList.innerHTML = "Некорректные данные!"
+            return false
+        }
     }
-
 }
+
 
 
 function resizePreview(sheet_w, sheet_h, sheet_u, sheet_d, sheet_l, sheet_r) {
@@ -144,7 +217,7 @@ function visualize(cutaway_w, cutaway_h, cutaway_f, total_row, total_column) {
     let offset_x = 2 * cutaway_f + cutaway_w
     let offset_y = 2 * cutaway_f + cutaway_h
     ctx.fillStyle = fillColor;
-    
+
     for (let i = 0; i < total_column; i++) {
         for (let j = 0; j < total_row; j++) {
             // отрисовка визиток в одном ряду

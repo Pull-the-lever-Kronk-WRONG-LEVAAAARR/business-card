@@ -134,7 +134,9 @@ section{
 }
 .preview {
     width: 35rem;
+    max-width: 50rem;
     height: 26rem;
+    max-height: 26rem;
     padding: 2.5rem 4rem 3rem 2rem;
 }
 /* инпуты */
