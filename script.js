@@ -71,15 +71,15 @@ function calcSize() {
             // сохранение промежуточных результатов во временные переменные,
             // необходимых для нахождения наибольшей произведения total = total_row * total_column
             //округление до меньшего, т.к. это физический объект
-            temp_row_ww = Math.floor(fin_sheet_w / fin_cutaway_w)
-            temp_row_wh = Math.floor(fin_sheet_w / fin_cutaway_h)
-            temp_column_hh = Math.floor(fin_sheet_h / fin_cutaway_h)
-            temp_column_hw = Math.floor(fin_sheet_h / fin_cutaway_w)
+            let temp_row_ww = Math.floor(fin_sheet_w / fin_cutaway_w)
+            let temp_row_wh = Math.floor(fin_sheet_w / fin_cutaway_h)
+            let temp_column_hh = Math.floor(fin_sheet_h / fin_cutaway_h)
+            let temp_column_hw = Math.floor(fin_sheet_h / fin_cutaway_w)
             // возможны следующие комбинации, т.к. величина не может использоваться два раза:
             // temp_row_ww * temp_column_hh
             // temp_row_wh * temp_column_hw
-            temp_total_ww_hh = temp_row_ww * temp_column_hh
-            temp_total_wh_hw = temp_row_wh * temp_column_hw
+            let temp_total_ww_hh = temp_row_ww * temp_column_hh
+            let temp_total_wh_hw = temp_row_wh * temp_column_hw
             if (temp_total_ww_hh >= temp_total_wh_hw) {
                 total_row = temp_row_ww
                 total_column = temp_column_hh
@@ -89,7 +89,7 @@ function calcSize() {
                 total_column = temp_column_hw
                 total = temp_total_wh_hw
                 // cutaway_w и cutaway_h меняются значениями, т.о., получается "вертикальная" раскладка
-                temp = cutaway_w
+                let temp = cutaway_w
                 cutaway_w = cutaway_h
                 cutaway_h = temp
             }
@@ -185,20 +185,35 @@ function resizePreview(sheet_w, sheet_h, sheet_u, sheet_d, sheet_l, sheet_r) {
 
     if (sheet_w + sheet_h > 0) {
         // задание новых padding для блока
-        if (sheet_w <= 330 || sheet_h <= 330) {
-            preview.style.width = 2 * sheet_w + 'px'
-            preview.style.height = 2 * sheet_h + 'px'
+        // if (sheet_w <= 330 || sheet_h <= 330) {
+        //     preview.style.width = 2 * sheet_w + 'px'
+        //     preview.style.height = 2 * sheet_h + 'px'
+        // }
+        // else if (sheet_w <= 450 || sheet_h <= 450) {
+        //     preview.style.width = 1.5 * sheet_w + 'px'
+        //     preview.style.height = 1.5 * sheet_h + 'px'
+        // }
+        // else {
+        //     preview.style.width = sheet_w + 'px'
+        //     preview.style.height = sheet_h + 'px'
+        // }
+        // preview.style.padding = sheet_u + 'px ' + sheet_r + 'px ' + sheet_d + 'px ' + sheet_l + 'px'
+        if (sheet_w / sheet_h < 1 && sheet_w / sheet_h > 0) {
+            // высота остаётся фиксированной
+            preview.style.height = 26 + 'rem'
+            preview.style.width = sheet_w * 26 /  sheet_h + 'rem'
+        } else if (sheet_w / sheet_h >= 1){
+            // длина остаётся фиксированной и равной 45 + 'rem'
+            preview.style.width = 45 + 'rem'
+            preview.style.height = 45 * sheet_h / sheet_w + 'rem'
         }
-        else if (sheet_w <= 450 || sheet_h <= 450) {
-            preview.style.width = 1.5 * sheet_w + 'px'
-            preview.style.height = 1.5 * sheet_h + 'px'
-        }
-        else {
-            preview.style.width = sheet_w + 'px'
-            preview.style.height = sheet_h + 'px'
-        }
-        preview.style.padding = sheet_u + 'px ' + sheet_r + 'px ' + sheet_d + 'px ' + sheet_l + 'px'
+        // формирование паддингов, соотносящихся с размерами блока аналогично соотношению тех. полей с листом
+        preview.style.padding = sheet_u * preview.offsetHeight / sheet_h  + 'px ' + sheet_r * preview.offsetWidth / sheet_w + 'px ' + sheet_d * preview.offsetHeight / sheet_h + 'px ' + sheet_l * preview.offsetWidth / sheet_w + 'px'
         //указание новых высоты и ширины canvas
+        console.log('width = ' + preview.offsetWidth)
+        console.log('height = ' + preview.offsetHeight)
+        console.log('padding = ' + sheet_u * preview.offsetHeight / sheet_h  + 'px ' + sheet_r * preview.offsetWidth / sheet_w + 'px ' + sheet_d * preview.offsetHeight / sheet_h + 'px ' + sheet_l * preview.offsetWidth / sheet_w + 'px')
+
         c.setAttribute('width', (sheet_w - sheet_l - sheet_r))
         c.setAttribute('height', (sheet_h - sheet_u - sheet_d))
     }
