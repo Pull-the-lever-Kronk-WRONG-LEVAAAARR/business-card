@@ -185,19 +185,7 @@ function resizePreview(sheet_w, sheet_h, sheet_u, sheet_d, sheet_l, sheet_r) {
 
     if (sheet_w + sheet_h > 0) {
         // задание новых padding для блока
-        // if (sheet_w <= 330 || sheet_h <= 330) {
-        //     preview.style.width = 2 * sheet_w + 'px'
-        //     preview.style.height = 2 * sheet_h + 'px'
-        // }
-        // else if (sheet_w <= 450 || sheet_h <= 450) {
-        //     preview.style.width = 1.5 * sheet_w + 'px'
-        //     preview.style.height = 1.5 * sheet_h + 'px'
-        // }
-        // else {
-        //     preview.style.width = sheet_w + 'px'
-        //     preview.style.height = sheet_h + 'px'
-        // }
-        // preview.style.padding = sheet_u + 'px ' + sheet_r + 'px ' + sheet_d + 'px ' + sheet_l + 'px'
+
         if (sheet_w / sheet_h < 1 && sheet_w / sheet_h > 0) {
             // высота остаётся фиксированной
             preview.style.height = 26 + 'rem'
