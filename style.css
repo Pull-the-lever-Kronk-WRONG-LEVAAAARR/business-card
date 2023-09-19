@@ -1,10 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;700&family=Raleway:wght@400&display=swap');
- 
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
+
 :root {
     /* стили документа*/
     --color-accent: #7D937D;
@@ -13,53 +14,137 @@
     --color-text: #493D10;
     --color-border: #B6B1A7;
     --color-visualizer: #D7BFAD;
-    --color-shadow: rgba(173,163,151,80%);
+    --color-shadow: rgba(173, 163, 151, 80%);
     --color-error: #B45436;
     --font-title: 'Open Sans', sans-serif;
     --font-main: 'Raleway', sans-serif;
+
+    --border-radius-standart: 0.7rem;
+    --border-radius-small: 0.5rem;
+
+
 }
+
 html {
     font-size: 20px;
     background-color: #F6F2F2;
     /* text-align: left; */
     overflow-x: hidden;
 }
-h1, h2 {
+
+h1,
+h2 {
     color: var(--color-accent);
     font-size: 3rem;
     font-weight: 700;
     width: fit-content;
     text-align: center;
 }
-p, label {
+
+p,
+label {
     color: var(--color-text);
     width: fit-content;
 }
-h1, h2, label, input {
+
+h1,
+h2,
+label,
+input {
     font-family: var(--font-title);
 }
+
 /* менее акцентный цвет для второстепенного значения */
-.total-sheet > h2 {
+.total-sheet>h2 {
     color: var(--color-border);
 }
+
 p {
     font-family: var(--font-main);
     font-weight: 400px;
     font-size: 1.3em;
 }
+
 .small-p {
     margin-top: 1rem;
     font-size: 1rem;
 }
+
 .warning {
-    margin-top: 1rem;
+    position: absolute;
     font-size: 0.9rem;
+    font-family: var(--font-main);
     color: var(--color-error);
+    max-width: 25rem;
+    width: 25rem;
+    z-index: 5;
+    min-height: 2rem;
+    background-color: white;
+    border-radius: var(--border-radius-small);
+    padding: 0.5rem;
 }
-label, input {
+
+.error {
+    position: absolute;
+    left: 15rem;
+    max-width: 0;
+    max-height: 0;
+    display: flex;
+}
+
+label,
+input {
     font-size: 1rem;
     font-weight: 400;
 }
+
+label {
+    cursor: pointer;
+}
+
+/* ЛЕЙБЛ МЕНЬШЕГО РАЗМЕРА */
+.small-label {
+    font-size: 0.8rem;
+}
+
+input[type='radio']:checked+label {
+    font-weight: 700;
+}
+
+/* КАСТОМНАЯ РАДИОКНОПКА */
+
+.units input[type='radio'], .temp-units input[type='radio'] {
+    position: relative;
+    height: 0;
+    width: 0.6rem;
+}
+
+.units input[type='radio']::before, .temp-units input[type='radio']::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    transform: translate(-50%, -100%);
+    border: 2px solid var(--color-text);
+}
+
+.units input[type='radio']:checked::after, .temp-units input[type='radio']:checked::after {
+    content: '';
+    position: absolute;
+    bottom: 50%;
+    left: 50%;
+    width: 0.8rem;
+    height: 0.8rem;
+    border-radius: 50%;
+    background-color: var(--color-text);
+    transform: translate(-50%);
+    /* visibility: visible; */
+}
+
+/* ======================= */
+
 header {
     position: relative;
     margin: 2rem 0 3rem 0;
@@ -72,7 +157,8 @@ header {
     min-width: 15rem;
     justify-content: space-evenly;
 }
-section{
+
+section {
     position: relative;
     width: 100%;
     display: flex;
@@ -81,6 +167,7 @@ section{
     justify-content: space-evenly;
     max-width: calc(65rem + (100% - 65rem)/3);
 }
+
 /* контейнеры */
 .cont {
     position: relative;
@@ -89,27 +176,35 @@ section{
     flex-wrap: wrap;
     justify-content: space-between;
     align-content: space-around;
-    z-index: 1; /*вывод перед блоками с фоном*/
+    /* z-index: 1; вывод перед блоками с фоном */
 }
-.sheet, .cutaway {
+
+.format-box {
     margin-bottom: 1rem;
     padding: 0;
 }
-.databox, .preview, .cont-total, .run {
+
+.databox,
+.preview,
+.cont-total,
+.run {
     background-color: var(--color-fill);
     border: 1px solid var(--color-border);
     position: relative;
-    border-radius: 0.7rem;
+    border-radius: var(--border-radius-standart);
     margin-bottom: 2rem;
-
 }
-.databox, .run, .total {
+
+.databox,
+.run,
+.total {
     padding: 1.5rem;
     width: 15rem;
     display: flex;
     justify-content: left;
     flex-direction: column;
 }
+
 .cont-total {
     display: flex;
     flex-wrap: wrap;
@@ -119,26 +214,34 @@ section{
     flex-direction: row;
     justify-content: space-around;
 }
+
 .databox {
-    height: 26rem;
+    position: relative;
+    max-height: 27rem;
+    min-height: 13rem;
 }
+
 .param {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
 }
-.total, .run {
+
+.total,
+.run {
     height: 8rem;
     width: 15rem;
-    
+
 }
+
 .preview {
     width: 35rem;
-    max-width: 50rem;
-    height: 26rem;
-    max-height: 26rem;
+    max-width: 45rem;
+    height: 27rem;
+    max-height: 27rem;
     padding: 2.5rem 4rem 3rem 2rem;
 }
+
 /* инпуты */
 .cont-inp {
     position: relative;
@@ -146,19 +249,21 @@ section{
     border: none;
     height: 1.3rem;
     width: 5rem;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius-small);
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 0.3rem;
     margin-top: 1rem;
 }
+
 .cont-inp label {
     position: absolute;
     height: 1.3rem;
     width: 1.8rem;
     background-color: transparent;
 }
+
 .cont-inp input {
     position: absolute;
     left: 1.8rem;
@@ -167,16 +272,23 @@ section{
     border: none;
     background-color: transparent;
 }
+
 .error-input {
     border: var(--color-error) 2px solid;
 }
+
 /* canvas */
 #canvas {
-    width: 100%;
-    height: 100%;
+    position: relative;
+    /* width: 100%;
+    height: 100%; */
+    /* height: 21.5rem;
+    width: 29rem; */
+    max-width: 45rem;
     border: var(--color-text) 1px dashed;
-    border-radius: 0.5rem;
+    border-radius: var(--border-radius-small);
 }
+
 /* ФОН */
 .bg-left {
     width: 50%;
@@ -192,8 +304,9 @@ section{
     display: flex;
     align-items: center;
     justify-content: center;
-
+    z-index: -1;
 }
+
 .bg-right {
     background: no-repeat 130% 0% /60% url('img/bcg_v1.svg');
     width: 50%;
@@ -207,4 +320,333 @@ section{
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: -1;
+
+}
+
+/* =========== */
+/* =========== */
+/* РАСКРЫВАЮЩИЙСЯ СПИСОК */
+/* Вызывающая кнопка */
+.btn {
+    background-color: var(--color-input);
+    position: relative;
+    height: 1.3rem;
+    width: 1.3rem;
+    color: white;
+    font-size: 5px;
+    outline: none;
+    border: 1px solid var(--color-text);
+    border-radius: 0.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center
+}
+
+/* Контейнер <div> - нужен для позиционирования выпадающего контента */
+.dropdown {
+    position: relative;
+    display: flex;
+    margin-top: 1rem;
+}
+
+/* Выпадающий контент (по умолчанию скрыт) */
+.dropdown-content {
+    display: none;
+    position: absolute;
+    margin-top: 1.3rem;
+    background-color: #f1f1f1;
+    border-radius: 0.1rem;
+    min-width: 60px;
+    width: 2rem;
+    z-index: 20;
+}
+
+/* Значения внутри выпадающего блока */
+.dropdown-content .content {
+    color: black;
+    padding: 5px 10px;
+    font-size: 10px;
+    font-family: var(--font-main);
+    text-decoration: none;
+    display: block;
+    z-index: 20;
+}
+
+/* Изменяем цвет ссылки при наведении */
+.dropdown-content .content:hover {
+    background-color: #ddd
+}
+
+/* Показываем выпадающий блок при наведении */
+.active-dropdown {
+    display: block;
+}
+
+/*Лейбл для выпадающего списка*/
+.dropdown-content label {
+    font-size: 0.6rem;
+    color: black;
+}
+
+/* Изменяем фоновый цвет вызывающей кнопки при выводе выпадающего блока */
+.btn:hover,
+.dropdown:hover .btn {
+    background-color: var(--color-border);
+}
+
+.dropdown input {
+    width: 0;
+    height: 0;
+}
+
+.arrow {
+    content: "";
+    background: url("img/down-arrow.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 17px;
+    width: 17px;
+    margin: 5px 0px 5px 0px;
+    padding: 5px 5px;
+    transition: all 0.1s linear;
+}
+
+.arrow.transform {
+    transform: rotate(180deg);
+}
+
+.bg-info {
+    background: #7D937D;
+    margin: 2rem 0 0 0;
+    padding: 0 0 2rem 0;
+}
+
+
+
+/* Заголовок 'Как пользоваться калькулятором'*/
+.bg-info>header>h1 {
+    color: white;
+}
+
+.bg-info>header {
+    position: relative;
+    margin: 2rem 0 1.5rem 0;
+    height: auto;
+    display: flex;
+    min-width: 15rem;
+    justify-content: space-evenly;
+}
+
+/* Контейнер с карточками */
+.wrap {
+    height: 22rem;
+    /*Задаем высоту обертки*/
+    display: flex;
+    min-width: 1400px;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+/* Карточка */
+.info-block {
+    font-size: 40px;
+    background-color: var(--color-fill);
+    width: 270px;
+    /*Фиксируем ширину блока*/
+    margin-top: 1rem;
+    border-radius: 0.7rem;
+    height: 22rem;
+    /*Задаем высоту*/
+    text-align: center;
+    /*Центрируем текст по горизонтали*/
+    padding: 10px 15px 10px 15px;
+}
+
+ol {
+    margin: 10px 0 0 35px;
+    font-size: 20px;
+}
+
+ol li {
+    position: relative;
+    color: white;
+    font-family: var(--font-main);
+    margin: 0 0 0 0;
+    padding: 0 0 10px 0;
+}
+
+/* Блок раздела */
+.info-content {
+    margin-top: 2rem;
+}
+
+.info-content>h3 {
+    color: white;
+    font-family: var(--font-title);
+    font-size: 1.5rem;
+    font-weight: 700;
+    width: fit-content;
+    text-align: center;
+}
+
+.info-block>h4 {
+    font-family: var(--font-main);
+    font-weight: 200px;
+    font-size: 0.5em;
+    color: var(--color-text);
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.info-block>p {
+    font-family: var(--font-main);
+    font-weight: 5rem;
+    font-size: 1rem;
+    text-align: justify;
+}
+
+/* Выделение параметра в тексте */
+.parameter {
+    font-weight: 600;
+}
+
+.image {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.img {
+    margin-top: 10px;
+    width: 200px;
+    height: 70px;
+    border: 1px solid var(--color-border);
+}
+
+img {
+    margin-top: 10px;
+    width: 400px;
+    height: 300px;
+    border: 1px solid var(--color-border);
+}
+
+.result {
+    margin-top: 10px;
+    width: 400px;
+    height: 100px;
+    border: 1px solid var(--color-border);
+}
+
+ul {
+    margin: 10px 0 0 35px;
+    font-size: 18px;
+}
+
+ul li {
+    position: relative;
+    font-family: var(--font-main);
+    margin: 0 0 0 0;
+    padding: 0 0 10px 0;
+    text-align: justify;
+    color: var(--color-text);
+}
+
+.possible-errors {
+    width: 1400px;
+    height: 280px;
+}
+
+.unit-text {
+    width: 1400px;
+    margin-top: 0.5rem;
+}
+
+.unit-text>p {
+    font-family: var(--font-main);
+    font-weight: 5rem;
+    font-size: 1rem;
+    text-align: justify;
+    color: white;
+    text-indent: 30px;
+}
+
+.info-button {
+    display: flex;
+    justify-content: space-between;
+    width: 240px;
+}
+
+.info-button a {
+    display: block;
+    content: "";
+    background: url("img/info.svg");
+    background-size: contain;
+    background-repeat: no-repeat;
+    height: 17px;
+    width: 17px;
+    margin: 5px 0px 5px 0px;
+    padding: 5px 5px;
+    transition: all 0.1s linear;
+}
+
+/* РЕДАКТИРОВАНИЕ ШАБЛОНОВ */
+.template-editor{
+    padding-bottom: 2rem;
+}
+.save-temp {
+    background: var(--color-accent);
+    border: none;
+    border-radius: var(--border-radius-small);
+    color: white;
+    height: 2rem;
+    cursor: pointer;
+    width: 15rem;
+}
+
+.template-list {
+    width: 35rem;
+    height: 8rem;
+}
+
+.horizontal-list {
+    overflow-x: scroll;
+    overflow-y: hidden;
+    height: 5rem;
+    margin-top: 1rem;
+    white-space: nowrap;
+}
+
+.horizontal-list>li {
+    display: inline-block;
+    height: 3rem;
+    width: 14rem;
+    background-color: var(--color-fill);
+    margin-right: 2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--border-radius-standart);
+    font-family: var(--font-title);
+    text-align: center;
+    line-height: 3rem;
+    user-select: none;
+}
+
+.horizontal-list>li:hover {
+    background-color: var(--color-border);
+    color: white;
+}
+
+/* Настройка скроллбара */
+.horizontal-list::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.horizontal-list::-webkit-scrollbar-thumb {
+    background-color: var(--color-border);
+    width: 10px;
+    height: 10px;
+    border-radius: 10px;
 }

@@ -9,72 +9,142 @@
     <link rel="stylesheet" href="style.css">
 </head>
 
-<body>
+<body onload="calcSize(); calcSheets()">
     <div class="cont">
         <header>
             <h1>Рассчитать количество визиток</h1>
         </header>
         <section>
             <div class="cont">
-                <div class="databox" onchange="calcSize()">
+                <div class="databox">
                     <!-- Бокс для ввода данных о размерах -->
-                    <div class="sheet">
-                        <p>Формат листа (мм)</p>
-                        <div class="param">
-                            <div class="cont-inp">
-                                <label for="sheet-h">в:</label>
-                                <input type="number" value="0" name="" id="sheet-h">
+                    <div oninput="calcSize(); calcSheets()" onchange="calcSize(); calcSheets()">
+                        <div class="format-box">
+                            <div class="info-button">
+                                <p>Формат листа</p>
+                                <div class="btn" id="question-button">
+                                    <a href="#instruction"></a>
+                                </div>
                             </div>
-                            <div class="cont-inp">
-                                <label for="sheet-w">ш:</label>
-                                <input type="number" value="0" name="" id="sheet-w">
+                            <div class="param">
+                                <div class="cont-inp" title="Высота">
+                                    <label for="sheet-h">в:</label>
+                                    <input type="number" min="210" max="2000" value="210" name="" pattern="/^[\d]+$/g"
+                                        id="sheet-h">
+                                </div>
+                                <div class="cont-inp" title="Ширина">
+                                    <label for="sheet-w">ш:</label>
+                                    <input type="number" min="210" max="2000" value="297" name="" id="sheet-w">
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn" onclick="initialiseListFormat()">
+                                        <div id="btn-list-format">
+                                            <div class="arrow" id="arrow-list-format"></div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-content" id="list-format" onclick="insertListFormat()">
+                                        <div class="content">
+                                            <label for="fullpayment">A2</label>
+                                            <input type="radio" name="sheet-format" class="radio" id="fullpayment" value="0">
+                                        </div>
+                                        <div class="content">
+                                            <label for="closed">A3</label>
+                                            <input type="radio" name="sheet-format" class="radio" id="closed" value="1">
+                                        </div>
+                                        <div class="content">
+                                            <label for="canceled">A4</label>
+                                            <input type="radio" name="sheet-format" class="radio" id="canceled" value="2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="small-p">Технические поля</p>
+                            <div class="param">
+                                <div class="cont-inp" title="Верхнее поле">
+                                    <label for="sheet-u">в:</label>
+                                    <input type="number" min="2" max="50" value="3" name="" id="sheet-u">
+                                </div>
+                                <div class="cont-inp" title="Правое поле">
+                                    <label for="sheet-r">п:</label>
+                                    <input type="number" min="2" max="50" value="3" name="" id="sheet-r">
+                                </div>
+                                <div class="cont-inp">
+                                    <label for="sheet-d" title="Нижнее поле">н:</label>
+                                    <input type="number" min="2" max="50" value="3" name="" id="sheet-d">
+                                </div>
+                                <div class="cont-inp" title="Левое поле">
+                                    <label for="sheet-l">л:</label>
+                                    <input type="number" min="2" max="50" value="3" name="" id="sheet-l">
+                                </div>
                             </div>
                         </div>
-                        <p class="small-p">Технические поля (мм)</p>
-                        <div class="param">
-                            <div class="cont-inp">
-                                <label for="sheet-u">в:</label>
-                                <input type="number" value="0" name="" id="sheet-u">
+                        <div class="format-box">
+                            <p>Формат визитки</p>
+                            <div class="param">
+                                <div class="cont-inp" title="Высота">
+                                    <label for="cutaway-h">в:</label>
+                                    <input type="number" min="50" max="210" value="55" name="" id="cutaway-h">
+                                </div>
+                                <div class="cont-inp" title="Ширина">
+                                    <label for="cutaway-w">ш:</label>
+                                    <input type="number" min="50" max="210" value="85" name="" id="cutaway-w">
+                                </div>
+                                <div class="dropdown">
+                                    <div class="btn" onclick="initialiseCardFormat()">
+                                        <div id="btn-card-format">
+                                            <div class="arrow" id="arrow-card-format"></div>
+                                        </div>
+                                    </div>
+                                    <div class="dropdown-content" id="card-format" onclick="insertCardFormat()">
+                                        <div class="content">
+                                            <label for="full">55x85</label>
+                                            <input type="radio" name="cutaway-format" class="radio" id="full" value="0">
+                                        </div>
+                                        <div class="content">
+                                            <label for="clo">55x90</label>
+                                            <input type="radio" name="cutaway-format" class="radio" id="clo" value="1">
+                                        </div>
+                                        <div class="content">
+                                            <label for="canc">50x90</label>
+                                            <input type="radio" name="cutaway-format" class="radio" id="canc" value="2">
+                                        </div>
+                                        <div class="content">
+                                            <label for="canc1">55x98</label>
+                                            <input type="radio" name="cutaway-format" class="radio" id="canc1" value="3">
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="cont-inp">
-                                <label for="sheet-r">п:</label>
-                                <input type="number" value="0" name="" id="sheet-r">
-                            </div>
-                            <div class="cont-inp">
-                                <label for="sheet-d">н:</label>
-                                <input type="number" value="0" name="" id="sheet-d">
-                            </div>
-                            <div class="cont-inp">
-                                <label for="sheet-l">л:</label>
-                                <input type="number" value="0" name="" id="sheet-l">
+                            <div>
+                                <p class="small-p">Вылеты</p>
+                                <div class="cont-inp">
+                                    <label for="cutaway-f"></label>
+                                    <input type="number" min="2" max="50" value="2" name="" id="cutaway-f">
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div class="cutaway">
-                        <p>Формат визитки (мм)</p>
-                        <div class="param">
-                            <div class="cont-inp">
-                                <label for="cutaway-h">в:</label>
-                                <input type="number" value="0" name="" id="cutaway-h">
+                    <div class="format-box">
+                        <p class="small-p">Единицы измерения</p>
+                        <div class="param units" style="margin-top: 0.4rem;" onchange="convertedInput()">
+                            <div>
+                                <label for="u-mm" class="small-label">
+                                    <input type="radio" name="units" id="u-mm" checked>
+                                    миллиметр</label>
                             </div>
-                            <div class="cont-inp">
-                                <label for="cutaway-w">ш:</label>
-                                <input type="number" value="0" name="" id="cutaway-w">
+                            <div>
+                                <label for="u-cm" class="small-label">
+                                    <input type="radio" name="units" id="u-cm">
+                                    сантиметр</label>
                             </div>
                         </div>
-                        <p class="small-p">Вылеты (мм)</p>
-                        <div class="cont-inp">
-                            <label for="cutaway-f"></label>
-                            <input type="number" value="0" name="" id="cutaway-f">
-                        </div>
-                        <p class="warning"></p>
                     </div>
                 </div>
-                <div class="run">
+                <div class="run" oninput="calcSheets()">
                     <p>Тираж</p>
-                    <div class="cont-inp">
-
-                        <input type="number" value="0" name="" id="run">
+                    <div class="cont-inp" id="run-block" style="width: auto;">
+                        <input type="number" value="1" name="" min="1" step="1" id="run"
+                            style="width: auto; left: 0; padding-left: 0.8rem;">
                     </div>
                 </div>
             </div>
@@ -98,7 +168,210 @@
     </div>
     <div class="bg-left"></div>
     <div class="bg-right"></div>
-    <script src="script.js"></script>
+    <div class="cont bg-info" id="instruction">
+        <header>
+            <h1>Как пользоваться калькулятором</h1>
+        </header>
+        <div class="info-content">
+            <h3>Возможности калькулятора </h3>
+            <div>
+                <ol>
+                    <li>Расчет количества печатных изделий на листе заданного формата;</li>
+                    <li>Расчет количества печатных листов, необходимых для изготовления тиража заданного объема;</li>
+                    <li>Визаулизация раскладки печатных изделий</li>
+                    <li>Создание собственных шаблонов параметров*</li>
+                </ol>
+            </div>
+        </div>
+        <div class="info-content">
+            <h3>Визуализация</h3>
+            <div class="unit-text">
+                <p>Прямоугольная область визуализации представляет собой печатный лист.
+                    Внутренняя пунктирная линия — границы технических полей.
+                    На листе отображается раскладка печатных изделий. Скругление является дизайнерским решением и не
+                    влияет на расчеты.
+                </p>
+            </div>
+            <img src=".\img\list.png" alt="Визуализация">
+        </div>
+        <div class="info-content">
+            <h3>Задаваемые значения </h3>
+            <div class="unit-text">
+                <p>В калькуляторе есть две единицы измеения: «сантиметр» и «миллиметр». При переключении режима значения
+                    в полях
+                    пересчитываюся в соответсвии с выбранной единицей измерения.
+                </p>
+            </div>
+            <div class="wrap">
+                <div class="info-block">
+                    <h4>Формат листа</h4>
+                    <p>Формат листа задается двумя параметрами:</p>
+                    <ul>
+                        <li><span class="parameter">в (высота):</span> значение в пределах от 210 до 2000</li>
+                        <li><span class="parameter">ш (ширина):</span> значение в пределах от 210 до 2000</li>
+                    </ul>
+                    <div class="image">
+                        <img src=".\img\list-fromat.png" alt="Формат листа" class="img">
+                    </div>
+                </div>
+                <div class="info-block">
+                    <h4>Поля</h4>
+                    <p>Технические поля для листа задаются 4 параметрами:</p>
+                    <ul>
+                        <li><span class="parameter">в (верхнее):</span> значение в пределах от 2 до 50</li>
+                        <li><span class="parameter">п (правое):</span> значение в пределах от 2 до 50</li>
+                        <li><span class="parameter">н (нижнее):</span> значение в пределах 2 до 50</li>
+                        <li><span class="parameter">л (левое):</span> значение в пределах 2 до 50</li>
+                    </ul>
+                    <div>
+                        <img src=".\img\parameters.png" alt="Технические поля" class="img">
+                    </div>
+                </div>
+                <div class="info-block">
+                    <h4>Формат визитки</h4>
+                    <p>Формат визитки задается двумя параметрами:</p>
+                    <ul>
+                        <li><span class="parameter">в (высота):</span> значение в пределах от 50 до 148</li>
+                        <li><span class="parameter">ш (ширина):</span> значение в пределах от 50 до 148</li>
+                    </ul>
+                    <div class="image">
+                        <img src=".\img\card-fromat.png" alt="Формат визитки" class="img">
+                    </div>
+                </div>
+                <div class="info-block">
+                    <h4>Вылеты</h4>
+                    <p>Припуски к обрезному формату:</p>
+                    <ul>
+                        <li>значение в пределах от 2 до 50</li>
+                    </ul>
+                    <div class="image">
+                        <img src=".\img\cutaway.png" alt="Вылеты" class="img">
+                    </div>
+                </div>
+                <div class="info-block">
+                    <h4>Тираж</h4>
+                    <p>Задает объем тиража печатных изделий:
+                    <ul>
+                        <li>значение в пределах от 0 до 1 000 000 000</li>
+                    </ul>
+                    <div class="image">
+                        <img src=".\img\cards-number.png" alt="Тираж" class="img">
+                    </div>
+                </div>
+            </div>
+            <div class="info-content">
+                <h3>Выходящие значения</h3>
+                <div class="unit-text">
+                    <p> Результатом работы программы являются два значения:</p>
+                    <ol>
+                        <li><span class="parameter">«Визиток в листе»:</span> число печатных изделий на листе заданного
+                            формата</li>
+                        <li><span class="parameter">«Всего листов»:</span> число печатных листов, необходимых для
+                            изготовления тиража заданного объема</li>
+                    </ol>
+                </div>
+                <img src=".\img\result.png" class="result" alt="Выходящие значения">
+            </div>
+            <div class="info-content">
+                <h3>Возможные ошибки </h3>
+                <div class="possible-errors">
+                    <ol>
+                        <li><span class="parameter">«Поля не должны быть пустыми»:</span> ошибка возникает, если
+                            какое-либо поле для ввода не заполнено</li>
+                        <li><span class="parameter">«Значение в мм должно быть целым и больше 0»:</span> если выбрана
+                            единица измерения 'миллиметр', значение в поле ввода должно быть не отрицательным и не
+                            дробным</li>
+                        <li><span class="parameter">«Значение в см не должны иметь более 1 знака после
+                                разделителя»:</span> если выбрана единица измерения 'сантиметр', значение в поле ввода
+                            не должно иметь более 1 знака после точки или запятой</li>
+                        <li><span class="parameter">«Значение должно быть не меньше 'значение' и не превосходить
+                                'значение'»:</span> ошибка возникает в случае выхода за пределы значений параметра.
+                        </li>
+                        <li><span class="parameter">«Значение должно быть больше 0»:</span> вводимое значение не может
+                            быть отрицательным</li>
+                        <li><span class="parameter">«Значение вылетов не должно превышать величину тех. полей»:</span>
+                            технические поля должны быть больше или равны вылетам</li>
+                    </ol>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="cont template-editor">
+        <header>
+            <h1>Редактор шаблонов (скоро)</h1>
+        </header>
+        <section>
+            <form action="" class="cont">
+                <div class="databox">
+                    <div class="format-box">
+                        <p>Имя</p>
+                        <div class="cont-inp" style="width: auto;">
+                            <input type="text" value="" name="temp-name" id="temp-name" required
+                                style="width: auto; left: 0; padding-left: 0.8rem;" autocomplete="off">
+                        </div>
+                    </div>
+                    <div class="format-box">
+                        <p>Формат</p>
+                        <div class="param units">
+                            <div>
+                                <input type="radio" name="type" id="t-sheet" checked>
+                                <label class="small-label" for="t-sheet">лист</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="type" id="t-cutaway">
+                                <label class="small-label" for="t-cutaway">визитка</label>
+                            </div>
+                        </div>
+
+                        <div class="param">
+                            <div class="cont-inp">
+                                <label for="sheet-h">в:</label>
+                                <input type="number" value="0" name="" id="sheet-h" required>
+                            </div>
+                            <div class="cont-inp">
+                                <label for="sheet-w">ш:</label>
+                                <input type="number" value="0" name="" id="sheet-w" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="format-box">
+                        <p class="small-p">Единицы измерения</p>
+                        <div class="param units">
+                            <div>
+                                <input type="radio" name="temp-units" id="temp-u-mm" checked>
+                                <label class="small-label" for="temp-u-mm">миллиметр</label>
+                            </div>
+                            <div>
+                                <input type="radio" name="temp-units" id="temp-u-cm">
+                                <label class="small-label" for="temp-u-cm">сантиметр</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <input type="button" class="save-temp" value="Сохранить">
+            </form>
+            <div class="cont">
+                <div class="template-list">
+                    <p>Шаблоны для формата листа</p>
+                    <ul class="horizontal-list" id="sheet-list">
+                        <li>А4: 210 × 297 мм</li>
+                        <li>А3: 297 × 420 мм</li>
+                        <li>А2: 420 × 794 мм</li>
+                    </ul>
+                </div>
+                <div class="template-list">
+                    <p>Шаблоны для формата визитки</p>
+                    <ul class="horizontal-list" id="cutaway-list">
+                        <li>basic: 50 × 90 мм</li>
+                        <li>small: 55 × 85 мм</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="script_new.js"></script>
+    <script src="preview.js"></script>
+    <script src="dropdown.js"></script>
 </body>
 
 </html>
